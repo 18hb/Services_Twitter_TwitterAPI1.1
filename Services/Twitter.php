@@ -112,14 +112,14 @@ class Services_Twitter
      *
      * @var string $uri
      */
-    public static $uri = 'http://api.twitter.com/1';
+    public static $uri = 'http://api.twitter.com/1.1';
 
     /**
      * Public URI of Twitter's Search API
      *
      * @var string $uri
      */
-    public static $searchUri = 'http://search.twitter.com';
+    public static $searchUri = 'http://api.twitter.com/1.1';
 
     /**
      * Username of Twitter user
@@ -287,6 +287,7 @@ class Services_Twitter
         } else if (isset($this->api[$endpoint][$endpoint])) {
             // case of a "root" endpoint call, the method is the name of the 
             // category (ex: $twitter->direct_messages())
+            $this->currentCategory = $endpoint;
             $ep = $this->api[$endpoint][$endpoint];
         } else {
             throw new Services_Twitter_Exception(
@@ -612,10 +613,16 @@ class Services_Twitter
 
         // build the uri path
         $path = '/';
-        if ($cat !== null && $cat !== 'search') {
+        if ($cat !== null) {
             $path .= $cat . '/';
         }
-        $path  .= (string)$endpoint['name'];
+
+        if ($cat == 'search') {
+            $path .= 'tweets';
+        } else {
+            $path .= (string)$endpoint['name'];
+        }
+
         $method = (string)$endpoint['method'];
 
         // check if we have a POST method and a registered source to pass
