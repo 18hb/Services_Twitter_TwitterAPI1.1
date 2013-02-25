@@ -47,7 +47,7 @@ http://pear.php.net/packages/Services_Twitter
             <param name="count" type="integer" max_length="200" required="false"/>
             <param name="page" type="integer" required="false"/>
         </endpoint>
-        <endpoint name="mentions" method="GET" auth_required="true">
+        <endpoint name="mentions_timeline" method="GET" auth_required="true">
             <formats>xml,json,rss,atom</formats>
             <param name="since_id" type="integer" required="false"/>
             <param name="max_id" type="integer" required="false"/>
