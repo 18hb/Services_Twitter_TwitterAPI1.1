@@ -275,6 +275,11 @@ class Services_Twitter
     public function __call($endpoint, array $args = array())
     {
         if ($this->currentCategory !== null) {
+            //Adapt old endpoint for mentions to 1.1
+            if ($this->currentCategory == 'statuses' && $endpoint == 'mentions') {
+                $endpoint = 'mentions_timeline';
+            }
+
             if (!isset($this->api[$this->currentCategory][$endpoint])) {
                 throw new Services_Twitter_Exception(
                     'Unsupported endpoint ' 
